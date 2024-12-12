@@ -1,7 +1,7 @@
 /*****Universal*****/
 
 body {
-  background-image: url('/duck.jpg'); /* Changed from absolute to relative path */
+  background-image: url('../duck.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
