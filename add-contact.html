@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Contact Book</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body>
+        <br/>
+        <div id="container-add-contact">
+            <form id="editForm">
+                <label for="firstname">First name</label>
+                <input type="text" name="firstname" id="firstname"><br/>
+                <label for="lastname">Last name</label>
+                <input type="text" name="lastname" id="lastname"><br/>
+                <label for="Mobile">Mobile</label>
+                <input type="text" name="mobile" id="mobile"><br/>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email"><br/>
+                <label for="avatar">Select a file</label>
+                <input type="file" name="avatar" id="avatar"><br/>
+            </form>
+            <br/>
+            <div id="button-container">
+                <button type="submit" id="submitForm">Submit</button>
+                <button id="homeLink" type="button">Home</button>
+            </div>
+        </div>
+
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="config.js"></script>
+        <script>
+            document.getElementById("submitForm").addEventListener('click', submitForm);
+            document.getElementById("homeLink").addEventListener('click', homeLink);
+
+            function submitForm(e){
+                e.preventDefault();
+
+                const form = new FormData(document.querySelector('#editForm'));
+                form.append('apiKey', apiKey);
+
+                fetch(rootPath + 'controller/insert-contact/', {
+                    method: 'POST',
+                    headers: {'Accept': 'application/json, *.*'},
+                    body: form
+                })
+                .then(function(response){
+                    return response.text();
+                })
+                .then(function(data){
+                    if(data == "1"){
+                        alert("Contact added.");
+                        homeLink();
+                    }else{
+                        alert(data);
+                        homeLink();
+                    }
+                })
+            }
+
+            function homeLink(){
+                window.open("index.html", "_self");
+            }
+
+
+        </script>
+    </body>
+</html>

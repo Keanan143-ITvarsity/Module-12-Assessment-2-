@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Contact Book</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+    <body onload="fetchContacts()">
+        <div id="container-index">
+            <div id="table">Contacts Loading...</div>
+            <div id="button-container">
+                <button id="refresh" type="button">Refresh</button>
+                <button id="addContact" type="button">Add Contact</button>
+            </div>
+        </div>
+
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="config.js"></script>
+        <script>
+
+            document.getElementById("addContact").addEventListener('click', addContact);
+            document.getElementById("refresh").addEventListener('click',fetchContacts)
+
+            function fetchContacts(){
+                fetch(rootPath + "controller/get-contacts/")
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    displayOutput(data);
+                    //console.log(data);
+                })
+            }
+
+            function displayOutput(data){
+                output = "<table>";
+
+                    for(a in data){
+                        output +=
+                        `
+                            <tr onclick="editContact(${data[a].id})">
+                                <td><img src="${rootPath}controller/uploads/${data[a].avatar}" class="img-fluid rounded-circle ms-3 my-3" style="width: 70px; height: 70px; object-fit: cover;"</td>
+                                <td><h5>${data[a].firstname}</h5></td>
+                                <td><h5>${data[a].lastname}</h5></td>
+                            </tr>
+                        `
+                    }
+                output += "</table>";
+                document.getElementById("table").innerHTML = output
+            }
+
+            function addContact(){
+                window.open("add-contact.html", "_self");
+            }
+
+            function editContact(id){
+                window.open("edit-contact.html?id=" + id, "_self");
+            }
+
+        </script>
+    </body>
+</html>
